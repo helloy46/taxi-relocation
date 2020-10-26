@@ -419,11 +419,29 @@ save(agg_vis_dat, file = "dashboard/vis_dat.RData")
 #### Strategy 1 (Equally distributed condition)
 
 #### Strategy 2 (Spot-based static condition)
-- Sujin taks
+- Sujin task
 - Zone에 1000m by 1000m 
-- Pods이 x개가 있을 때
-- X pods들의 X,y 좌표가 리턴되는 함수
+- Pods이 k개가 있을 때
+- X pods들의 X,y 좌표가 리턴되는 함수 (dataframe 형태)
+```{r}
+library(amap) #Kmeans
+library(sqldf)
 
+intra_pod <- function(k) {
+  x= as.data.frame(seq(from = 0, to = 1000, by = 1))
+  y= as.data.frame(seq(from = 0, to = 1000, by = 1))
+
+  p<-sqldf("SELECT * from x, y")
+  temp <- Kmeans(p, k, method = "manhattan")
+  pod<-as.data.frame(temp$center)
+  
+  names(pod)[1]<-"x"
+  names(pod)[2]<-"y"
+  
+  return(pod)
+}
+
+```
 
 
 ## Cost Calculator
